@@ -21,8 +21,8 @@ public class Maths {
   }
   
   /**
-   * Method randomInt
-   * generates a random int between a given range.
+   * Method randomDouble
+   * generates a random double between a given range.
    * @param low the lower bound
    * @param high the upper bound
    * @return The random number

@@ -1,1 +1,8 @@
+title: MyRep1
+description: [A short description of your site's purpose]
+
+show_downloads: true
+google_analytics: 
+
+
 theme: jekyll-theme-dinky

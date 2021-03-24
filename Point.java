@@ -50,10 +50,9 @@ public class Point {
     }
 
     /**
-     * Constructs a Point object with random numbers in a given absolute range
+     * Constructs a Point object with random numbers in a given range
      * @param randRngStart The absolute range min number
      * @param randRngEnd The absolute range max number
-     * @param randRngStart The absolute range starting number
      * @param rep3D Whether the Point should be 3D or not
      */
     public Point (double randRngStart, double randRngEnd, boolean rep3D) {
@@ -64,11 +63,26 @@ public class Point {
         z = Maths.randomDouble (randRngStart, randRngEnd);
       }
       this.rep3D = rep3D;
+    }
+    
+    /**
+     * Constructs a Point object with random numbers in a given absolute symmetric range
+     * @param randRng The absolute range max number
+     * @param rep3D Whether the Point should be 3D or not
+     */
+    public Point (double randRng, boolean rep3D) {
+      //Randomizing numbers
+      x = Maths.randomDouble (0.0, randRng);
+      y = Maths.randomDouble (0.0, randRng);
+      if (rep3D) {
+        z = Maths.randomDouble (0.0, randRng);
+      }
+      this.rep3D = rep3D;
       
       //Randomizing sign
-      if (Maths.randomInt (0, (int) randRngEnd) % 2 != 0) x *= -1.0;
-      if (Maths.randomInt (0, (int) randRngEnd) % 2 != 0) this.y *= -1.0;
-      if (Maths.randomInt (0, (int) randRngEnd) % 2 != 0) this.z *= -1.0;
+      if (Maths.randomInt (0, (int) randRng) % 2 != 0) x *= -1.0;
+      if (Maths.randomInt (0, (int) randRng) % 2 != 0) this.y *= -1.0;
+      if (Maths.randomInt (0, (int) randRng) % 2 != 0) this.z *= -1.0;
     }
     
     /**
@@ -188,7 +202,7 @@ public class Point {
      * @returns A tuple of {r, theta} as an array ( from r(cos ? + i sin ?) )
      */
     public double[] toPolarForm (boolean inRadians) throws java.util.MissingFormatArgumentException {
-      if (rep3D) throw new java.util.MissingFormatArgumentException("cannot operate on 3D representation. provide additonal \'perspective\' argument?");
+      if (rep3D) throw new java.util.MissingFormatArgumentException("cannot operate on 3D representation. Provide additonal \'perspective\' argument?");
       double r = distance(new Point(0.0, 0.0));
       
       return new double[]{r, angle(inRadians)};

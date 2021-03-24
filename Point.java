@@ -163,6 +163,25 @@ public class Point {
       return rep3D ? new Point (newX, newY, newZ) : new Point (newX, newY);
     }
 
+     /**
+     * Calculates the angle of a single Point
+     * @param inRadians Whether the calculated angle should be in radians or not
+     * @returns The angle of 1 Point
+     */
+    public double angle (boolean inRadians) {
+      return inRadians ? Math.atan2(y,x) : Math.toDegrees( Math.atan2(y,x) );
+    }
+    
+    /**
+     * Calculates the angle between 2 given points
+     * @param p2 The 2nd Point
+     * @param inRadians Whether the calculated angle should be in radians or not
+     * @returns The angle between the 2 given Points
+     */
+    public double angle (Point p2, boolean inRadians) {
+      return (inRadians) ? Math.atan2(y,x) - Math.atan2(p2.y,p2.x) : Math.toDegrees ( Math.atan2(y,x) - Math.atan2(p2.y,p2.x) );
+    }
+    
     /**
      * Convert the given Point into its polar coordinates (2D)
      * @param inRadians Whether the calculated angle should be in radians or not
@@ -172,8 +191,7 @@ public class Point {
       if (rep3D) throw new java.util.MissingFormatArgumentException("cannot operate on 3D representation. provide additonal \'perspective\' argument?");
       double r = distance(new Point(0.0, 0.0));
       
-      double theta = inRadians ? Math.atan2(y,x) : Math.toDegrees( Math.atan2(y,x) );
-      return new double[]{r, theta};
+      return new double[]{r, angle(inRadians)};
     }
 
     /**
@@ -195,15 +213,5 @@ public class Point {
           default: return null;
       }
       return new double[]{r, theta};
-    }
-    
-    /**
-     * Calculates the angle between 2 given points
-     * @param p2 The 2nd Point
-     * @param inRadians Whether the calculated angle should be in radians or not
-     * @returns The angle between the 2 given Points
-     */
-    public double angle (Point p2, boolean inRadians) {
-      return (inRadians) ? Math.atan2(y,x) - Math.atan2(p2.y,p2.x) : Math.toDegrees ( Math.atan2(y,x) - Math.atan2(p2.y,p2.x) );
     }
 }

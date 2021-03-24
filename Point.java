@@ -168,12 +168,11 @@ public class Point {
      * @param inRadians Whether the calculated angle should be in radians or not
      * @returns A tuple of {r, theta} as an array ( from r(cos ? + i sin ?) )
      */
-    public double[] toPolarForm (boolean inRadians) {
-      if (rep3D) return null;
+    public double[] toPolarForm (boolean inRadians) throws java.util.MissingFormatArgumentException {
+      if (rep3D) throw new java.util.MissingFormatArgumentException("cannot operate on 3D representation. provide additonal \'perspective\' argument?");
       double r = distance(new Point(0.0, 0.0));
-      double theta;
-      if (equals (new Point (0, 0, 0))) theta = 0;
-      else theta = inRadians ? Math.atan(y/x) : Math.atan(y/x) * 180.0/Math.PI;
+      
+      double theta = inRadians ? Math.atan2(y,x) : Math.toDegrees( Math.atan2(y,x) );
       return new double[]{r, theta};
     }
 
@@ -184,14 +183,14 @@ public class Point {
      * @returns A tuple of {r, theta} as an array ( from r(cos ? + i sin ?) )
      */
     public double[] toPolarForm (boolean inRadians, char perspective) {
-      double r = this.distance(new Point(0.0, 0.0));
+      double r = distance(new Point(0.0, 0.0));
       double theta;
       switch (perspective) {
-          case 'z': theta = inRadians ? Math.atan(y/x) : Math.atan(y/x) * 180.0/Math.PI;
+          case 'z': theta = inRadians ? Math.atan2(y,x) : Math.toDegrees( Math.atan2(y,x) );
                     break;
-          case 'y': theta = inRadians ? Math.atan(x/z) : Math.atan(x/z) * 180.0/Math.PI;
+          case 'y': theta = inRadians ? Math.atan2(x,z) : Math.toDegrees( Math.atan2(x,z) );
                     break;
-          case 'x': theta = inRadians ? Math.atan(z/y) : Math.atan(z/y) * 180.0/Math.PI;
+          case 'x': theta = inRadians ? Math.atan2(z,y) : Math.toDegrees( Math.atan2(z,y) );
                     break;
           default: return null;
       }
@@ -205,6 +204,6 @@ public class Point {
      * @returns The angle between the 2 given Points
      */
     public double angle (Point p2, boolean inRadians) {
-      return (inRadians) ? Math.atan(y/x) - Math.atan(p2.y/p2.x) : ( Math.atan(y/x) - Math.atan(p2.y/p2.x) ) * 180.0/Math.PI;
+      return (inRadians) ? Math.atan2(y,x) - Math.atan2(p2.y,p2.x) : Math.toDegrees ( Math.atan2(y,x) - Math.atan2(p2.y,p2.x) );
     }
 }

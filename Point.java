@@ -145,6 +145,15 @@ public class Point {
     }
     
     /**
+     * Returns the distance of the Point from the origin
+     * @param p2 The 2nd Point
+     * @returns The distance between this Point and the origin
+     */
+    public double distance () {
+      return distance (new Point());
+    }
+    
+    /**
      * Returns the mid-point of the given 2 Points
      * @param p2 The 2nd Point
      * @ruturns A Point, which is the 2 Point's midpoint
@@ -203,9 +212,8 @@ public class Point {
      */
     public double[] toPolarForm (boolean inRadians) throws java.util.MissingFormatArgumentException {
       if (rep3D) throw new java.util.MissingFormatArgumentException("cannot operate on 3D representation. Provide additonal \'perspective\' argument?");
-      double r = distance(new Point(0.0, 0.0));
       
-      return new double[]{r, angle(inRadians)};
+      return new double[]{distance(), angle(inRadians)};
     }
 
     /**
@@ -214,8 +222,7 @@ public class Point {
      * @param perspective The axis perspective for reducing dimensional space
      * @returns A tuple of {r, theta} as an array ( from r(cos ? + i sin ?) )
      */
-    public double[] toPolarForm (boolean inRadians, char perspective) {
-      double r = distance(new Point(0.0, 0.0));
+    public double[] toPolarForm (boolean inRadians, char perspective) throws IllegalArgumentException {
       double theta;
       switch (perspective) {
           case 'z': theta = inRadians ? Math.atan2(y,x) : Math.toDegrees( Math.atan2(y,x) );
@@ -224,8 +231,8 @@ public class Point {
                     break;
           case 'x': theta = inRadians ? Math.atan2(z,y) : Math.toDegrees( Math.atan2(z,y) );
                     break;
-          default: return null;
+          default:  throw new IllegalArgumentException("The possible perspectives can only be one of [x,y,z] and not \'" + perspective + "\'");
       }
-      return new double[]{r, theta};
+      return new double[]{distance(), theta};
     }
 }

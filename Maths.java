@@ -1,6 +1,6 @@
 /**
  * Modifications of the original java.lang.Math class with added benefits
- * @author Laha Luhem
+ * @author LahaLuhem
  * @version 1.0.0
  */
                         import java.math.BigInteger;

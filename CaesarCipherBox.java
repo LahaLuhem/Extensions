@@ -1,3 +1,8 @@
+/**
+ * Representation of a simple encryption and decryption algorithm, tht uses the Caesar Cipher Box concept
+ * @author LahaLuhem
+ * @version 1.0
+ */
 class CaesarCipherBox {
   
   public static String encrypt (String text, int shift) {

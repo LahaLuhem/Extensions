@@ -186,8 +186,8 @@ public class Point {
       return rep3D ? new Point (newX, newY, newZ) : new Point (newX, newY);
     }
 
-     /**
-     * Calculates the angle of a single Point
+    /**
+     * Calculates the angle of a single Point from the origin
      * @param inRadians Whether the calculated angle should be in radians or not
      * @returns The angle of 1 Point
      */

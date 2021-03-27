@@ -12,7 +12,8 @@ public class Point {
   /**
    * Flag for the kind of Point perspective in use. Unchangable after constructing
    */
-  private boolean rep3D;
+  private enum Persp {twoD, threeD}
+  private Persp rep;
 
     /**
      * Constructs a Point object with default values of 0.0s and a 3D perspective
@@ -21,7 +22,7 @@ public class Point {
       x = 0.0;
       y = 0.0;
       z = 0.0;
-      rep3D = true;
+      rep = Persp.threeD;
     }
     
     /**
@@ -32,7 +33,7 @@ public class Point {
     public Point (double x, double y) {
       this.x = x;
       this.y = y;
-      this.rep3D = false;
+      this.rep = Persp.twoD;
       this.z = 0.0;
     }
     
@@ -45,7 +46,7 @@ public class Point {
     public Point (double x, double y, double z) {
       this.x = x;
       this.y = y;
-      this.rep3D = true;
+      this.rep = Persp.threeD;
       this.z = z;
     }
 
@@ -53,36 +54,38 @@ public class Point {
      * Constructs a Point object with random numbers in a given range
      * @param randRngStart The absolute range min number
      * @param randRngEnd The absolute range max number
-     * @param rep3D Whether the Point should be 3D or not
+     * @param rep Whether the Point should be 3D or not
      */
-    public Point (double randRngStart, double randRngEnd, boolean rep3D) {
+    public Point (double randRngStart, double randRngEnd, boolean rep) {
       //Randomizing numbers
       x = Maths.randomDouble (randRngStart, randRngEnd);
       y = Maths.randomDouble (randRngStart, randRngEnd);
-      if (rep3D) {
+      if (rep) {
         z = Maths.randomDouble (randRngStart, randRngEnd);
+        this.rep = Persp.threeD;
       }
-      this.rep3D = rep3D;
+      else this.rep = Persp.twoD;
     }
     
     /**
      * Constructs a Point object with random numbers in a given absolute symmetric range
      * @param randRng The absolute range max number
-     * @param rep3D Whether the Point should be 3D or not
+     * @param rep Whether the Point should be 3D or not
      */
-    public Point (double randRng, boolean rep3D) {
+    public Point (double randRng, boolean rep) {
       //Randomizing numbers
       x = Maths.randomDouble (0.0, randRng);
       y = Maths.randomDouble (0.0, randRng);
-      if (rep3D) {
+      if (rep) {
         z = Maths.randomDouble (0.0, randRng);
+        this.rep = Persp.threeD;
       }
-      this.rep3D = rep3D;
+      else this.rep = Persp.twoD;
       
       //Randomizing sign
       if (Maths.randomInt (0, (int) randRng) % 2 != 0) x *= -1.0;
-      if (Maths.randomInt (0, (int) randRng) % 2 != 0) this.y *= -1.0;
-      if (Maths.randomInt (0, (int) randRng) % 2 != 0) this.z *= -1.0;
+      if (Maths.randomInt (0, (int) randRng) % 2 != 0) y *= -1.0;
+      if (Maths.randomInt (0, (int) randRng) % 2 != 0) z *= -1.0;
     }
     
     /**
@@ -91,7 +94,7 @@ public class Point {
      */
     @Override
     public String toString() {
-      if (rep3D) return "(" + x + ", " + y + ", " + z + ")"; 
+      if (rep == Persp.threeD) return "(" + x + ", " + y + ", " + z + ")"; 
       return "(" + x + ", " + y + ")";
     }
     
@@ -183,7 +186,7 @@ public class Point {
         newZ = (m * p2.z - n * z) / (m - n);
       }
       
-      return rep3D ? new Point (newX, newY, newZ) : new Point (newX, newY);
+      return (rep == Persp.threeD) ? new Point (newX, newY, newZ) : new Point (newX, newY);
     }
 
     /**
@@ -209,9 +212,10 @@ public class Point {
      * Convert the given Point into its polar coordinates (2D)
      * @param inRadians Whether the calculated angle should be in radians or not
      * @returns A tuple of {r, theta} as an array ( from r(cos ? + i sin ?) )
+     * 
      */
     public double[] toPolarForm (boolean inRadians) throws java.util.MissingFormatArgumentException {
-      if (rep3D) throw new java.util.MissingFormatArgumentException("cannot operate on 3D representation. Provide additonal \'perspective\' argument?");
+      if (rep == Persp.threeD) throw new java.util.MissingFormatArgumentException("cannot operate on 3D representation. Provide additonal \'perspective\' argument?");
       
       return new double[]{distance(), angle(inRadians)};
     }

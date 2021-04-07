@@ -22,6 +22,9 @@ public class Tuple {
     }
     
     
+    /**
+     * Only for testing purposes, can be removed before realease
+     */
     public static void main (String[] args) {
         Tuple tuple = new Tuple (
                                     new Obj(13),

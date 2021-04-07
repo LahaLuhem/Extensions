@@ -4,92 +4,36 @@
  * @author LahaLuhem
  * @version 1.0.0
  */
-public class Tuple {
-    Obj[] elems;
+public class Tuple<T> {
+    private T[] elems;
 
-    Tuple (Obj ... objs) {
+    Tuple (T ... objs) {
         elems = objs;
     }
 
     @Override
     public String toString () {
         String seq = "( ";
-        for (Obj elem : elems)
-            seq += elem + " ";
-
+        for (T elem : elems)
+            if (elem instanceof String) seq += "\"" + elem + "\" ";
+            else seq += elem + " ";
+        
         seq += ")";
         return seq;
     }
     
     
     /**
-     * Only for testing purposes, can be removed before realease
+     * Only for testing purposes, can be removed before release
      */
     public static void main (String[] args) {
         Tuple tuple = new Tuple (
-                                    new Obj(13),
-                                    new Obj ("Hello"),
-                                    new Obj (42.69),
-                                    new Obj ( new Tuple (new Obj("try"), new Obj("recursives")) )
+                                    13,
+                                    "Hello",
+                                    42.69,
+                                    new Tuple ("try", "recursives")
                                 );
         
         System.out.println(tuple);
     }
-}
-
-class Obj<T> extends java.lang.Object {
-    Object element;
-    Types orgType;
-
-    Obj (int num){
-        element = (Object) num;
-        orgType = Types.Int;
-    }
-    Obj (char c){
-        element = (Object) c;
-        orgType = Types.Char;
-    }
-    Obj (double num) {
-        element = (Object) num;
-        orgType = Types.Double;
-    }
-    Obj (float num) {
-        element = (Object) num;
-        orgType = Types.Float;
-    }
-    Obj (String str) {
-        element = (Object) str;
-        orgType = Types.String;
-    }
-    Obj (T obj) {
-        element = obj;
-        orgType = Types.CustomObj;
-    }
-
-    
-    @Override
-    public String toString () {
-        switch (orgType) {
-            case Int: return "" + ((Integer)element);
-            case Char: return "" + ((Character)element);
-            case Double: return "" + ((Double)element);
-            case Float: return "" + ((Float)element);
-            
-            case String: return "\"" + (String)element + "\"";
-            
-            case CustomObj: return element.toString();
-            
-            default: return "";
-        }
-    }
-}
-
-enum Types {
-    Int,
-    Char,
-    Double,
-    Float,
-    String,
-
-    CustomObj
 }

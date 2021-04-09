@@ -1,7 +1,6 @@
 package python_reborn;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Enables a similar-ish functionality of the dynamic-type Tuple object object in languages like Python
@@ -73,16 +72,29 @@ public class Tuple<T> {
     }
     
     /**
-     * TO BE IMPLEMENTED PROPERLY
-     * @param tup2
-     * @return 
+     * Concatenates the current tuple with a given one
+     * @param tup2 The Tuple to be concatenated
+     * @return A new concatenated Tuple
      */
     public Tuple concat (Tuple tup2) {
-        List<T> tup1List = Arrays.asList(elems);
-        for (Object elem : tup2.elems)
-            tup1List.add((T) elem);
+        T[] result = Arrays.copyOf(elems, elems.length + tup2.elems.length);
+        System.arraycopy(tup2.elems, 0, result, elems.length, tup2.elems.length);
         
-        return new Tuple (tup1List);
+        return new Tuple (result);
+    }
+    
+    /**
+     * Concatenates to the current tuple, all tuples supplied to it
+     * @param tups Variable size list to be concatenated
+     * @return A new concatenated Tuple
+     */
+    public Tuple concat (Tuple... tups) {
+        Tuple concated = new Tuple();
+        concated.elems = elems;
+        
+        for (Tuple tup : tups) concated = concated.concat(tup);
+        
+        return concated;
     }
     
     /**

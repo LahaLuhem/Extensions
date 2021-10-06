@@ -1,6 +1,7 @@
 package python_reborn;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Enables a similar-ish functionality of the dynamic-type Tuple object object in languages like Python
@@ -22,12 +23,13 @@ public class Tuple<T> {
 
     @Override
     public String toString () {
-        StringBuilder seq = new StringBuilder("( ");
+        StringBuilder seq = new StringBuilder("(");
         for (T elem : elems)
             if (elem instanceof String) seq.append("\"").append(elem).append("\", ");
             else seq.append(elem).append (", ");
         
-        seq = seq.deleteCharAt(seq.length()-2);
+        seq = seq.deleteCharAt(seq.length()-2)
+                 .deleteCharAt(seq.length()-1);
         seq.append(")");
         
         return seq.toString();
@@ -53,12 +55,13 @@ public class Tuple<T> {
     
     /**
      * Allows changing of individual elements, only if the new one is of the same type
-     * Does not throw an Exception if no the case
+     * @throws ClassCastException otherwise
      * @param index The element to be modified
      * @param newElem The value to be modified with
      */
-    public void setAt (int index, T newElem) {
+    public void setAt (int index, T newElem) throws ClassCastException {
         if (newElem.getClass().equals(elems[index].getClass())) elems[index] = newElem;
+        else throw new ClassCastException();
     }
     
     /**
@@ -96,6 +99,12 @@ public class Tuple<T> {
         
         return concated;
     }
+    
+    public List<T> toList () {
+        return Arrays.asList (elems);
+    }
+    
+    
     
     /**
      * Only for testing purposes, can be removed before release
